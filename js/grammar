@@ -9,7 +9,7 @@
 
 S = SingleHeadstone 
 	| FamilyHeadstone 
-	| Mausoleum 
+#	| Mausoleum 
 	| Obelisk
 	;
 
