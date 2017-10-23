@@ -1,3 +1,32 @@
+grammar_str = `# Monument Grammar
+# S is the start symbol
+# lowercase strings are terminals
+# Uppercase strings are symbols
+# terminals can take parameters
+# arms are seperated by pipes
+# a float (<=1.0) at the start of an arm indicates the P of choosing that arm
+# all arms without explicit P are assigned equal P out of remaining P
+
+S = SingleHeadstone 
+	| FamilyHeadstone 
+#	| Mausoleum 
+	| Obelisk
+	;
+
+SingleHeadstone = pad(2,1) SHBody
+	| SHBody
+	;
+
+FamilyHeadstone = pad(3,1) FHBody
+	| FHBody
+	;
+
+Mausoleum = pad(4,6) MBody;
+
+Obelisk = pad(1,1) OBody;
+`;
+
+
 function generate(symbol) {
 	var c = symbol.charAt(0);
 	if (c == c.toLowerCase()) {
@@ -36,6 +65,7 @@ function Grammar(grammar_str) {
 	symbol_map = {};
 	// pass 1
 	for (var statement of statements) {
+		console.log("parsing "+statement);
 		if (statement.length == 0) continue;
 		var ss = statement.split('=',2).map(fi);
 		var arms = ss[1].split('|').map(fi);
@@ -65,9 +95,3 @@ function Grammar(grammar_str) {
 	 };
 }
 
-module.exports = {
-	parse : function(grammar_str) {
-		return new Grammar(grammar_str);
-	}
-
-}
